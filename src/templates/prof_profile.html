@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    #p-pic {
+    background:rgb(19, 24, 30);
+}
+
+#profile-menu > ul > li{
+    height: 10vh;
+    align-items: center;
+    font-size: 3vh;
+}
+
+
+.p-body {
+    background: rgba(255, 255, 255, 0.8);
+}
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+<div id="main-div" class="container-fluid">
+    <div class="row h-100 justify-content-center align-items-start">
+
+
+        <!--Profile Picture with Menu-->
+        <div id="profile" class="col-md-2 h-100 p-0 bg-dark">
+            <div id="p-pic" class="card w-100 p-5" style="background:rgb(19, 24, 30);">
+                <img class="card-img-top rounded-circle mt-5" src="../static/img/stormshadow.svg" alt="Card image"
+                    style="width:100%">
+                <div class="card-body mx-auto">
+                    <h4 class="card-text text-light font-weight-bold font-">John Doe</h4>
+                </div>
+            </div>
+
+            <div id="profile-menu">
+                <ul class="list-group list-group-flush">
+                    <li id="c" class="list-group-item bg-light">Courses</li>
+                    <li id="i" class="list-group-item bg-dark text-white">Student Info</li>
+                    <li id="l" class="list-group-item bg-light">Logout</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-10 h-100 p-3">
+            
+        </div>
+
+    </div>
+
+    <div class="navbar fixed-bottom text-white">
+        <p>Copyright © PES University, Bengaluru, India.</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $("#course").show();
+    $("#stu-info").hide();
+
+    $("#c").click(function () {
+        console.log('C event is getting fired');
+        $("#course").show();
+        $("#stu-info").hide();
+        console.log('This event is done');
+    }).delay(3000);
+
+    $("#i").click(function () {
+        console.log('I event is getting fired');
+        $("#course").hide();
+        $("#stu-info").show();
+    });
+
+    $('#l').click(function (ev) {
+        console.log('L event is getting fired');
+        ev.preventDefault();
+        ev.stopPropagation();
+        window.location.href = '/logout'
+    });
+</script>
+{% endblock %}

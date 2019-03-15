@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block head %}{% endblock %}
+{% block nav %}{%endblock%}
+{% block main %}
+<div id="main-div" class="container-fluid" style="height: 100vh;width: 100vw;">
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-md-8">
+                <h1 class="text-white font-weight-bold">Droplet</h1>
+                <blockquote class="blockquote text-white">
+                    <p class="font-italic">Each man is capable of doing one thing well. If he attempts several, he
+                        will fail to achieve
+                        distinction in any.</p>
+                    <footer class="blockquote-footer ">Plato</footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4">
+                <div class="card" ng-app="notesApp">
+                    <div class="card-body" ng-controller="MainCtrl as ctrl">
+                        <form ng-submit="ctrl.submit()" name="myForm">
+                            <div class="form-group">
+                                <label for="usn">USN</label>
+                                <input type="text" class="form-control" id="usn" placeholder="Enter USN" name="usn"
+                                    ng-model="ctrl.user.usn" required ng-minlength="8" ng-maxlength="8">
+                                <span style="color:red" ng-show="myForm.usn.$dirty && myForm.usn.$invalid">
+                                    Username must be 8 characters
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"
+                                    ng-model="ctrl.user.email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd"
+                                    ng-model="ctrl.user.password" required>
+                                
+                            </div>
+                            <span id="error" style="color:red"></span>
+                            <span style="color:red" ng-show="myForm.$invalid">
+                                All fields are required
+                            </span>
+                            <button type="submit" class="btn btn-primary" ng-disabled="myForm.$invalid">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar fixed-bottom text-white">
+            <p>Copyright © Droplet DSD, Bengaluru, India.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+    angular.module('notesApp', [])
+        .controller("MainCtrl", ["$http",
+            function ($http) {
+                var self = this
+                self.submit = function () {
+                    $http.post("/validate", self.user).then(
+                        function (response) {
+                            console.log(response);
+                            if(response.data == "Correct")
+                                window.location.href = "/profile";
+                            else if(response.data == "Wrong")
+                                document.getElementById('error').innerHTML = "Details are Wrong";
+                            else
+                                document.getElementById('error').innerHTML = "User not Registered";
+                        },
+                        function (err) {
+                            alert(err);
+                        }
+                    )
+                }
+            }]);
+
+</script>
+{% endblock %}

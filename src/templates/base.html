@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>PES ER</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static',filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{{ url_for('static',filename = 'css/mdb.min.css')}}" rel="stylesheet">
+
+    {% block style %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+
+<body class="bg-dark" style="background-image: url({{ url_for('static',filename = 'img/ml_background.png')}})">
+    <!--Main Navigation-->
+    <header>
+        <!--Navbar-->
+        <!--use sticky top instead of fixed, fixed may cause resising issues-->
+        <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
+
+            <!-- Navbar brand -->
+            <img src="{{ url_for('static',filename = 'img/logoPesu.png')}}" alt="PES University">
+            {% block nav %}
+            <!-- Collapse button -->
+            <button id="drop" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div id="dropcont" class="collapse navbar-collapse justify-content-end" id="basicExampleNav">
+                <div class="nav-item dropdown">
+                    <button class="btn btn-light dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" type="button" onclick=>Hi, {{name}}!</button>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a id="#prof" class="dropdown-item" href="/profile">Profile</a>
+                        <a id="#log" class="dropdown-item" href="/logout">Log Out</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Collapsible content -->
+            {% endblock %}
+
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <!--Main Navigation-->
+
+    <!--Main layout-->
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+    <!--Main layout-->
+
+    <!--Footer-->
+    <footer>
+        {% block footer %}{% endblock %}
+    </footer>
+    <!--Footer-->
+
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="{{ url_for('static',filename = 'js/jquery-3.3.1.min.js')}}"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="{{ url_for('static',filename = 'js/popper.min.js')}}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static',filename = 'js/bootstrap.min.js')}}"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static',filename = 'js/mdb.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename = 'js/angular.min.js')}}"></script>
+    {% block script %}{% endblock %}
+</body>
+
+</html>

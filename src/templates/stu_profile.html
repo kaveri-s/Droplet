@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    #p-pic {
+    background:rgb(19, 24, 30);
+}
+
+#profile-menu > ul > li{
+    height: 10vh;
+    align-items: center;
+    font-size: 3vh;
+}
+
+
+.p-body {
+    background: rgba(255, 255, 255, 0.8);
+}
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+<div id="main-div" class="container-fluid">
+    <div class="row h-100 justify-content-center align-items-start">
+
+        <div class="col-md-10 h-100 p-3">
+            <h3>Assignment List</h3>
+            <hr>
+            <div class="assn-list">
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div class="navbar fixed-bottom text-white">
+        <p>Copyright © PES University, Bengaluru, India.</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+</script>
+{% endblock %}
