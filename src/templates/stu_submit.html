@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    input,
+    select {
+        border: 0 !important;
+        outline: 0 !important;
+        background: transparent !important;
+        border-bottom: 0.1vw solid #dee2e6 !important;
+    }
+
+    input:hover,
+    select:hover {
+        border: 0 !important;
+        outline: 0 !important;
+        background: transparent !important;
+        border-bottom: 0.15vw solid #dee2e6 !important;
+    }
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+<!--To make space on top-->
+<div class="m-5 p-3"></div>
+<!--Main Layout-->
+
+<div class="container">
+    <div class="card p-5 mb-5">
+        <form action="professor/create/assignment/confirm">
+            <div class="form-group">
+                <label for="source">Source Code Link</label>
+                <input type="text" class="form-control" id="source" placeholder="Enter link to source code"
+                    name="source">
+            </div>
+            <div class="form-group">
+                <label for="docker">Dockerfile Link</label>
+                <input type="text" class="form-control" id="docker" placeholder="Enter link to Dockerfile"
+                    name="docker">
+            </div>
+            <div class="form-group">
+                <label for="report">Report Link</label>
+                <input type="text" class="form-control" id="report" placeholder="Enter link to report" name="report">
+            </div>
+            <div class="form-group">
+                <h5>Database</h5>
+                <input type="file" class="form-control" id="database" name="database">
+            </div>
+            <div class="form-group">
+                <h5>Selenium</h5>
+                <label for="selenium">Scenario 1</label>
+                <input type="file" class="form-control" id="selenium" name="selenium">
+            </div>
+
+            <button type="submit" class="btn btn-blue">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

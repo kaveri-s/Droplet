@@ -28,14 +28,28 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"
-                                    ng-model="ctrl.user.email" required>
+                                <input type="email" class="form-control" id="email" placeholder="Enter email"
+                                    name="email" ng-model="ctrl.user.email" required>
                             </div>
                             <div class="form-group">
                                 <label for="pwd">Password:</label>
-                                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd"
-                                    ng-model="ctrl.user.password" required>
-                                
+                                <input type="password" class="form-control" id="pwd" placeholder="Enter password"
+                                    name="pswd" ng-model="ctrl.user.password" required>
+
+                            </div>
+                            <div class="m-2">
+                            <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="role" value="student"
+                                            ng-model="ctrl.user.role" required>Student
+                                    </label>
+                                </div>
+                                <div class="form-check-inline float-right">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="role"
+                                            value="professor" ng-model="ctrl.user.role" required>Professor
+                                    </label>
+                                </div>
                             </div>
                             <span id="error" style="color:red"></span>
                             <span style="color:red" ng-show="myForm.$invalid">
@@ -65,9 +79,9 @@
                     $http.post("/validate", self.user).then(
                         function (response) {
                             console.log(response);
-                            if(response.data == "Correct")
+                            if (response.data == "Correct")
                                 window.location.href = "/profile";
-                            else if(response.data == "Wrong")
+                            else if (response.data == "Wrong")
                                 document.getElementById('error').innerHTML = "Details are Wrong";
                             else
                                 document.getElementById('error').innerHTML = "User not Registered";

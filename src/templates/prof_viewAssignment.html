@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    td>a:hover {
+        border-bottom: 2px solid grey;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+<!--To make space on top-->
+<div class="m-5 p-3"></div>
+<!--Main Layout-->
+
+<div class="container">
+    <!-- Assignment Details -->
+    <div id="assignment-details" class="card">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Title</td>
+                    <td>Build an Elective Recommender</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at turpis sit amet eros
+                        molestie scelerisque a a lacus. Cras in auctor nisl. Quisque venenatis est mi. Pellentesque
+                        dictum arcu vehicula, auctor velit id, efficitur purus. Cras suscipit, arcu at sodales
+                        facilisis, nunc tortor interdum massa, vitae sollicitudin magna nunc in lectus. Suspendisse quis
+                        accumsan lorem. Aenean scelerisque a mi non laoreet.</td>
+                </tr>
+                <tr>
+                    <td>Semester</td>
+                    <td>7</td>
+                </tr>
+
+                <tr>
+                    <td>Section</td>
+                    <td>C</td>
+                </tr>
+                <tr>
+                    <td>Course</td>
+                    <td>Web Tech II</td>
+                </tr>
+                <tr>
+                    <td>Database</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>Interaction Type</td>
+                    <td>Web UI</td>
+                </tr>
+                <tr>
+                    <td>Submission Date</td>
+                    <td>20/3/2019</td>
+                </tr>
+                <tr>
+                    <td>Test Cases</td>
+                    <td>
+                        <a data-toggle="modal" data-target="#Case1">Test Case 1</a><br>
+                        <a data-toggle="modal" data-target="#Case2">Test Case 2</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- The Modals -->
+    <div class="modal" id="Case1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Content of Test Case File
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="mt-5 border-light">
+
+    <!--Submission List-->
+    <div class=" container">
+        <h3 class="text-light mt-5">Submission List</h3>
+        <table class="mt-4 table table-light table-striped">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Test Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="a01/s01">01FB15ECS146</a></td>
+                    <td>Yes</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

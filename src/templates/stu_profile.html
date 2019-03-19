@@ -1,46 +1,45 @@
 {% extends "base.html" %}
 {% block style %}
 <style>
-    #p-pic {
-    background:rgb(19, 24, 30);
-}
-
-#profile-menu > ul > li{
-    height: 10vh;
-    align-items: center;
-    font-size: 3vh;
-}
-
-
-.p-body {
-    background: rgba(255, 255, 255, 0.8);
-}
+    td>a:hover {
+        border-bottom: 2px solid grey;
+        text-decoration: none;
+    }
 </style>
 {% endblock %}
 {% block head %}{% endblock %}
 {% block main %}
-<div id="main-div" class="container-fluid">
-    <div class="row h-100 justify-content-center align-items-start">
+<!--To make space on top-->
+<div class="m-5 p-3"></div>
+<!--Main Layout-->
 
-        <div class="col-md-10 h-100 p-3">
-            <h3>Assignment List</h3>
-            <hr>
-            <div class="assn-list">
-                
-            </div>
-        </div>
-
-    </div>
-
-    <div class="navbar fixed-bottom text-white">
-        <p>Copyright © PES University, Bengaluru, India.</p>
-    </div>
+<div class=" container">
+    <!--Assignment List-->
+    <table class="mt-4 table table-light table-striped">
+        <thead>
+            <tr>
+                <th>Assignment</th>
+                <th>Semester</th>
+                <th>Section</th>
+                <th>Subject</th>
+                <th>Submission Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="student/get/a01">Elective Registration</a></td>
+                <td>7</td>
+                <td>C</td>
+                <td>Web Tech II</td>
+                <td>29/02/2091</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 {% endblock %}
 
 {% block script %}
 <script>
-
 </script>
 {% endblock %}

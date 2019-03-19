@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    td>a:hover {
+        border-bottom: 2px solid grey;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+<!--To make space on top-->
+<div class="m-5 p-3"></div>
+<!--Main Layout-->
+
+<div class="container">
+    <!-- Submission Details -->
+    <div id="submission-details" class="card">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Student ID</td>
+                    <td>01FB15ECS146</td>
+                </tr>
+                <tr>
+                    <td>Section</td>
+                    <td>C</td>
+                </tr>
+                <tr>
+                    <td>Source Code</td>
+                    <td><a href="https://github.com/kaveri-s/WT2">WT2</a></td>
+                </tr>
+                <tr>
+                    <td>DockerFile</td>
+                    <td><a href="https://hub.docker.com/r/rubyphoenix/vertx-sample">Sample Java App</a></td>
+                </tr>
+                <tr>
+                    <td>Report</td>
+                    <td><a href="https://docs.google.com/document/d/17UD8GLL9hJp31rW4oaSXXHeTH2qk_fm0gu7V3Ro-etw/">Report-01FB15ECS146</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="mt-5 border-light">
+
+    <!--Docker Controller-->
+    <div class=" container">
+        <h3 class="text-light mt-5">Docker Controller</h3>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

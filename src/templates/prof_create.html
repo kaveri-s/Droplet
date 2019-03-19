@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    input,
+    select {
+        border: 0 !important;
+        outline: 0 !important;
+        background: transparent !important;
+        border-bottom: 0.1vw solid #dee2e6 !important;
+    }
+
+    input:hover,
+    select:hover {
+        border: 0 !important;
+        outline: 0 !important;
+        background: transparent !important;
+        border-bottom: 0.15vw solid #dee2e6 !important;
+    }
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+<!--To make space on top-->
+<div class="m-5 p-3"></div>
+<!--Main Layout-->
+
+<div class="container">
+    <div class="card p-5">
+        <form action="professor/create/assignment/confirm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter title" name="title">
+            </div>
+            <div class="form-group">
+                <label for="descr">Description</label>
+                <input type="textarea" class="form-control" id="descr" placeholder="Enter Description" name="descr">
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="batch">Semester:</label>
+                    <select class="form-control" id="sel1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="batch">Section:</label>
+                    <select class="form-control" id="sel1">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="batch">Course:</label>
+                <select class="form-control" id="sel1">
+                    <option>Web Tech</option>
+                    <option>Machine Learning</option>
+                </select>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Database: </label>
+                    <div class="radio ml-3">
+                        <label><input type="radio" name="database" checked>Yes</label>
+                    </div>
+                    <div class="radio ml-3">
+                        <label><input type="radio" name="database">No</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label>Interaction Type</label>
+                    <div class="radio ml-3">
+                        <label><input type="radio" name="uitype" checked>Web UI</label>
+                    </div>
+                    <div class="radio ml-3">
+                        <label><input type="radio" name="uitype">Rest API</label>
+                    </div>
+                    <div class="radio ml-3">
+                        <label><input type="radio" name="uitype" disabled>CLI</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="submission">Submission Date: </label>
+                <input class="ml-3" type="date" id="submission" name="submission">
+
+            </div>
+
+            <button type="submit" class="btn btn-blue">Create</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

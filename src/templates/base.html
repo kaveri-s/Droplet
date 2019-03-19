@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>PES ER</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static',filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -17,15 +16,14 @@
     {% block head %}{% endblock %}
 </head>
 
-<body class="bg-dark" style="background-image: url({{ url_for('static',filename = 'img/ml_background.png')}})">
+<body class="bg-dark" style="background-image: url({{ url_for('static',filename = 'img/background.png')}})">
     <!--Main Navigation-->
     <header>
         <!--Navbar-->
-        <!--use sticky top instead of fixed, fixed may cause resising issues-->
-        <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white fixed-top">
 
             <!-- Navbar brand -->
-            <img src="{{ url_for('static',filename = 'img/logoPesu.png')}}" alt="PES University">
+            <img src="{{ url_for('static',filename = 'img/logo.png')}}" alt="PES University">
             {% block nav %}
             <!-- Collapse button -->
             <button id="drop" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -36,7 +34,7 @@
             <!-- Collapsible content -->
             <div id="dropcont" class="collapse navbar-collapse justify-content-end" id="basicExampleNav">
                 <div class="nav-item dropdown">
-                    <button class="btn btn-light dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                    <button class="btn btn-white dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false" type="button" onclick=>Hi, {{name}}!</button>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a id="#prof" class="dropdown-item" href="/profile">Profile</a>
@@ -73,6 +71,7 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="{{ url_for('static',filename = 'js/mdb.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename = 'js/angular.min.js')}}"></script>
+
     {% block script %}{% endblock %}
 </body>
 
