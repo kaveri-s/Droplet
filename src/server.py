@@ -1,12 +1,6 @@
 from flask import Flask, flash,session, render_template, request, redirect, Response ,jsonify, json, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
 from string import Template
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from itsdangerous import URLSafeSerializer, BadSignature
 import pymysql
-import smtplib
-import datetime
 
 COMPANY_EMAIL_ADDRESS = 'alivedead068@gmail.com'
 PASSWORD = 'deadoraliveisasecret'
