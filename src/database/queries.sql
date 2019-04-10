@@ -16,6 +16,7 @@ select assignmentId, title, semester, section, courseName, submission
 
 -- show an assignment's details
 select assignmentId, title, semester, section, courseName , descr, db, ui, submission from assignment, teaches, course where assignmentId="1" and assignment.teachesId=teaches.teachesId and teaches.courseId=course.courseId;
+
 -- get submissions of an assignment
 
 -- get submission details
