@@ -20,7 +20,7 @@ CREATE TABLE user (
 CREATE TABLE course( 
     courseId varchar(20) primary key not null, 
     courseName VARCHAR(40), 
-    year int
+    semester int
 );
 
 CREATE TABLE takes( 
@@ -35,7 +35,8 @@ CREATE TABLE takes(
 CREATE TABLE teaches(
     teachesId int  AUTO_INCREMENT primary key, 
     courseId varchar(20) not null, 
-    userId varchar(20) not null, 
+    userId varchar(20) not null,
+    section varchar(20) not null, 
     FOREIGN KEY (userId) REFERENCES user(userId),
     FOREIGN KEY (courseId) REFERENCES course(courseId)
 );

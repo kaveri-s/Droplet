@@ -35,3 +35,6 @@ class Database:
     def query(self, sql, params=None):
         self.cursor.execute(sql, params or ())
         return self.fetchall()
+    def description(self):
+        desc = self.cursor.description
+        return [col[0] for col in desc]

@@ -1,6 +1,6 @@
 from flask import Flask, flash,session, render_template, request, redirect, Response ,jsonify, json, url_for
 from string import Template
-import pymysql
+from database import *
 
 COMPANY_EMAIL_ADDRESS = 'alivedead068@gmail.com'
 PASSWORD = 'deadoraliveisasecret'
@@ -23,20 +23,14 @@ def index():
 def validate():
     data = json.loads(request.data)
     print(data)
-    usn = data["usn"]
+    userId = data["usn"]
     email = data["email"]
     pswd = data["password"]
     role = data["role"]
-    # cursor = db.cursor()
-    # sql = "SELECT s_id, s_name, s_email, s_password from student where s_id = %s and s_email = %s"
-    # args = ([usn, email])
-    # cursor.execute(sql,args)
-    # results = cursor.fetchall()
-    # cursor.close()
-    # print(results)
 
-    results = [['01FB15EC', 'kaveri', 'kaveri.subra@gmail.com', 'kaveri']]
-
+    with Database() as db:
+        db.execute('select * from user where userId=%s and email=%s and pass=%s and userrole=%s',([userId, email, pswd, role]))
+        results = db.fetchall()
 
     if results:
         row = results[0]
@@ -85,10 +79,25 @@ def profile():
 #####
 # Prof Pages
 #####
+@app.route('/professor/get/assignments')
+def getAssignments():
+    if 'p_id' in session:
+        pid = session["p_id"]
+        with Database() as db:
+            query = 'select assignmentId, title, semester, teaches.section, courseName, submission from user, teaches, assignment, course where assignment.teachesId=teaches.teachesId and teaches.userId=user.userId and teaches.courseId=course.courseId and user.userId=%s order by submission desc'
+            params =([pid])
+            db.execute(query,params)
+            results = db.fetchall()
+            col = db.description()
+            data = [dict(zip(col, row)) for row in results]
+        return json.dumps(data)
+    else:
+        return render_template('index.html')
+
 @app.route('/professor/get/<assignment_id>')
 def getAssignment(assignment_id):
     if 'p_id' in session:
-        return render_template('prof_viewAssignment.html', name = session["name"])
+        return render_template('prof_viewAssignment.html', name = session["name"], aid = assignment_id)
     else:
         return render_template('index.html')
 

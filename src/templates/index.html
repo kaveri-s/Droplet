@@ -21,9 +21,9 @@
                             <div class="form-group">
                                 <label for="usn">USN</label>
                                 <input type="text" class="form-control" id="usn" placeholder="Enter USN" name="usn"
-                                    ng-model="ctrl.user.usn" required ng-minlength="8" ng-maxlength="8">
+                                    ng-model="ctrl.user.usn" required >
                                 <span style="color:red" ng-show="myForm.usn.$dirty && myForm.usn.$invalid">
-                                    Username must be 8 characters
+                                    Username incorrect
                                 </span>
                             </div>
                             <div class="form-group">
@@ -47,7 +47,7 @@
                                 <div class="form-check-inline float-right">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="role"
-                                            value="professor" ng-model="ctrl.user.role" required>Professor
+                                            value="prof" ng-model="ctrl.user.role" required>Professor
                                     </label>
                                 </div>
                             </div>

@@ -28,34 +28,13 @@
                 <th>Submission Date</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="assignments">
             <tr>
                 <td><a href="professor/get/a01">Elective Registration</a></td>
                 <td>7</td>
                 <td>C</td>
                 <td>Web Tech II</td>
                 <td>29/03/2019</td>
-            </tr>
-            <tr>
-                <td><a href="professor/get/a01">Library for Complex Numbers</a></td>
-                <td>5</td>
-                <td>A</td>
-                <td>Algorithms</td>
-                <td>03/04/2091</td>
-            </tr>
-            <tr>
-                <td><a href="professor/get/a01">Static Website</a></td>
-                <td>3</td>
-                <td>B</td>
-                <td>Web Tech</td>
-                <td>28/04/2019</td>
-            </tr>
-            <tr>
-                <td><a href="professor/get/a01">File System</a></td>
-                <td>6</td>
-                <td>B</td>
-                <td>Operating Systems</td>
-                <td>15/04/2019</td>
             </tr>
         </tbody>
     </table>
@@ -68,5 +47,22 @@
     $("#create").click(function () {
         window.location.href = '/professor/create/assignment'
     });
+
+    $.ajax({
+        url: '/professor/get/assignments',
+        success: function (response) {
+            data = JSON.parse(response);
+            print(data);
+            $("#assignments").html('');
+            for (i = 0, len = data.length; i < len; i++) {
+                $("#assignments").append('<td><a href="professor/get/'+data[i]['assignmentId']+'">'+data[i]['title']+'</a></td>'+
+                '<td>'+data[i]['semester']+'</td>'+
+                '<td>'+data[i]['section']+'</td>'+
+                '<td>'+data[i]['courseName']+'</td>'+
+                '<td>'+data[i]['submission']+'</td>');
+            }
+        }
+    });
+
 </script>
 {% endblock %}

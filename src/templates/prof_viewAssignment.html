@@ -106,5 +106,26 @@
 {% endblock %}
 
 {% block script %}
+<script>
+    $("#create").click(function () {
+        window.location.href = '/professor/create/assignment'
+    });
 
+    $.ajax({
+        url: '/professor/get/assignments',
+        success: function (response) {
+            data = JSON.parse(response);
+            print(data);
+            $("#assignments").html('');
+            for (i = 0, len = data.length; i < len; i++) {
+                $("#assignments").append('<td><a href="professor/get/' + data[i]['assignmentId'] + '">' +
+                    data[i]['title'] + '</a></td>' +
+                    '<td>' + data[i]['semester'] + '</td>' +
+                    '<td>' + data[i]['section'] + '</td>' +
+                    '<td>' + data[i]['courseName'] + '</td>' +
+                    '<td>' + data[i]['submission'] + '</td>');
+            }
+        }
+    });
+</script>
 {% endblock %}
