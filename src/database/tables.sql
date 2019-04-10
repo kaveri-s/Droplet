@@ -9,6 +9,7 @@ drop table course;
 drop table user;
 
 
+
 CREATE TABLE user (
     userId VARCHAR(20) NOT NULL primary key,
     username VARCHAR(40), 
