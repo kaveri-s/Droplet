@@ -20,12 +20,12 @@ select assignmentId, title, semester, section, courseName , descr, db, ui, submi
 -- get submissions of an assignment
     select * from submission,takes where submission.assignmentId="ASS" and submission.takesId=takes.takesId; 
 -- get submission details
-    select * from submission where assignmentId="ASS" and takesId; 
+    select * from submission where submissionId=.....; 
 
 -- get assignment list for student
     select * from submission,takes where and submission.takesId=takes.takesId and takes.userId="Billy";
 -- get takesId of student from details
     select takesId from submission  where submission.submissionId= "2";
 -- insert submission
-
+insert into submission values (NULL,Gitlink1,.........)
 -- see submission details if submitted
