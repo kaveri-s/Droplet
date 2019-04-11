@@ -57,6 +57,8 @@ CREATE TABLE web(
     testno int,
     scenario varchar(100), 
     assignmentId int, 
+    method varchar (10),
+    statusCode int,
     FOREIGN KEY (assignmentId) REFERENCES assignment(assignmentId)
 );
 
@@ -75,6 +77,7 @@ CREATE TABLE cli(
 );
 
 CREATE TABLE submission(
+    submissionId int AUTO_INCREMENT primary key,
     gitLink varchar(50),
     docLink varchar(50),
     toolPath varchar(50), 

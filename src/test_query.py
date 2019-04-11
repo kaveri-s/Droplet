@@ -8,7 +8,7 @@ from database import *
 
 with Database() as db:
     # need user, assignment, teaches, course, section
-    query = 'select assignmentId, title, semester, teaches.section, courseName, submission from user, teaches, assignment, course where assignment.teachesId=teaches.teachesId and teaches.userId=user.userId and teaches.courseId=course.courseId and user.userId=%s order by submission desc'
+    query = 'select assignmentId, title, semester, section, courseName , descr, db, ui, submission from assignment, teaches, course where assignmentId="1" and assignment.teachesId=teaches.teachesId and teaches.courseId=course.courseId;'
     params =(["P002"])
     db.execute(query,params)
     results = db.fetchall()

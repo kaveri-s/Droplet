@@ -19,6 +19,15 @@ def getAssignments():
     else:
         return render_template('index.html')
 
+
+@app.route('/professor/get/<assignment_id>')
+def getAssignment(assignment_id):
+    if 'p_id' in session:
+        pid = session["p_id"]
+        with Database() as db:
+             query = 'select assignmentId, title, semester, section, courseName , descr, db, ui, submission from assignment, teaches, course where assignmentId="1" and assignment.teachesId=teaches.teachesId and teaches.courseId=course.courseId;'
+    else:
+        return render_template('index.html')
 if __name__ == '__main__':
 # run!
     app.run(debug=True)

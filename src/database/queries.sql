@@ -18,11 +18,12 @@ select assignmentId, title, semester, section, courseName, submission
 select assignmentId, title, semester, section, courseName , descr, db, ui, submission from assignment, teaches, course where assignmentId="1" and assignment.teachesId=teaches.teachesId and teaches.courseId=course.courseId;
 
 -- get submissions of an assignment
-
+    select * from submission,takes where submission.assignmentId="ASS" and submission.takesId=takes.takesId; 
 -- get submission details
+    select * from submission where assignmentId="ASS" and takesId; 
 
 -- get assignment list for student
-
+    select * from submission,takes where and submission.takesId=takes.takesId and takes.takesId=submission.takesId;
 -- get takesId of student from details
 
 -- insert submission
