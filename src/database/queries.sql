@@ -23,9 +23,9 @@ select assignmentId, title, semester, section, courseName , descr, db, ui, submi
     select * from submission where assignmentId="ASS" and takesId; 
 
 -- get assignment list for student
-    select * from submission,takes where and submission.takesId=takes.takesId and takes.takesId=submission.takesId;
+    select * from submission,takes where and submission.takesId=takes.takesId and takes.userId="Billy";
 -- get takesId of student from details
-
+    select takesId from submission  where submission.submissionId= "2";
 -- insert submission
 
 -- see submission details if submitted
