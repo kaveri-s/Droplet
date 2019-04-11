@@ -12,3 +12,4 @@ insert into takes(section, userId, courseId) values('C' , "S003", "C003");
 insert into teaches(userId, courseId, section) values("P001", "C001","C");
 insert into teaches(userId, courseId, section) values("P002", "C002","C");
 insert into teaches(userId, courseId, section) values("P002", "C003","C");
+insert into assignment(title,descr,db,ui,submission,teachesId) values ("algo","just a test","none","cli","2019-04-04","2");

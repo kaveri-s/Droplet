@@ -108,7 +108,7 @@ def createAssigment():
     else:
         return render_template('index.html')
 
-@app.route('/professor/get/<assignment_id>/<submission_id>')
+@app.route('/professor/get<submission_id>')
 def getSubmissions(assignment_id, submission_id):
     if 'p_id' in session:
         return render_template('prof_viewSubmission.html', name = session["name"])
