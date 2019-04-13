@@ -97,7 +97,14 @@ def getAssignments():
 @app.route('/professor/get/<assignment_id>')
 def getAssignment(assignment_id):
     if 'p_id' in session:
-        return render_template('prof_viewAssignment.html', name = session["name"], aid = assignment_id)
+        with Database() as db:
+            query = 'select assignmentId, title, semester, teaches.section, courseName, submission from user, teaches, assignment, course where assignment.teachesId=teaches.teachesId and teaches.userId=user.userId and teaches.courseId=course.courseId and user.userId=%s'
+            params =(session['pid']) 
+            db.execute(query,params)
+            results = db.fetchall()
+            col = db.description()
+            data = [dict(zip(col, row)) for row in results]
+        return render_template('prof_viewAssignment.html', name = session["name"], **data)
     else:
         return render_template('index.html')
 
@@ -108,10 +115,42 @@ def createAssigment():
     else:
         return render_template('index.html')
 
-@app.route('/professor/get<submission_id>')
+@app.route('/professor/create/assignment/confirm',methods=['POST'])
+def createAssigmentConfirm():
+    #if 'p_id' in session:
+    if True:  
+        #pid = session["p_id"]
+        pid ="P002"
+        print(request.is_json)
+        content=request.json
+        print(content)
+        title = content['title']
+        description = content['description']
+        database = content['database']
+        ui=content['ui']
+        submission=content['submission']
+        teachesId=content['teachesId']
+        with Database() as db:
+            query = 'insert into assignment(title,descr,db,ui,submission,teachesId) values (%s,%s,%s,%s,%s,%s);'
+            params =([title,description,database,ui,submission,teachesId]) 
+            db.execute(query,params)
+            data="success"
+        return json.dumps(data)
+    else:
+        return render_template('index.html')
+
+@app.route('/professor/get/<assignment_id>/<submission_id>')
 def getSubmissions(assignment_id, submission_id):
     if 'p_id' in session:
-        return render_template('prof_viewSubmission.html', name = session["name"])
+        with Database() as db:
+            query = 'select * from submission where submissionId=%s;'
+            params =([submission_id])
+            db.execute(query,params)
+            results= db.fetchall()
+            col = db.description()
+            data = [dict(zip(col, row)) for row in results]
+
+        return render_template('prof_viewSubmission.html', name = session["name"], **data)
     else:
         return render_template('index.html')
 
@@ -122,7 +161,14 @@ def getSubmissions(assignment_id, submission_id):
 @app.route('/student/get/<assignment_id>')
 def getSubmission(assignment_id):
     if 's_id' in session:
-        return render_template('stu_submission.html', name = session["name"])
+        with Database() as db:
+            query = 'select * from assignment where assignmentId=%s;'
+            params =([assignment_id]) 
+            db.execute(query,params)
+            results = db.fetchall()
+            col = db.description()
+            data = [dict(zip(col, row)) for row in results]
+        return render_template('stu_submission.html', name = session["name"], **data)
     else:
         return render_template('index.html') 
 
@@ -130,6 +176,30 @@ def getSubmission(assignment_id):
 def createSubmission():
     if 's_id' in session:
         return render_template('stu_submit.html', name = session["name"])
+    else:
+        return render_template('index.html')
+
+@app.route('/student/create/submission/confirm',methods=["POST"])
+def createSubmissionConfirm():
+    if 's_id' in session:
+        print(request.is_json)
+        content=request.json
+        print(content)
+        gitlink = content['gitink']
+        doclink = content['doclink']
+        toolpath=content['toolpath']
+        reportlink=content['reportlink']
+        host=content['host']
+        port=content['port']
+        takesid=content['takesid']
+        assignmentid=content['assignmentid']
+        
+        with Database() as db:
+            query = 'insert into submission(gitlink,doclink,toolpath,reportlink,host,port,takesid,assignmentid) values (%s,%s,%s,%s,%s,%s,%s,%s);'
+            params =([gitlink,doclink,toolpath,reportlink,host,port,takesid,assignmentid]) 
+            db.execute(query,params)
+            data="success"
+        return json.dumps(data)
     else:
         return render_template('index.html')
 
