@@ -98,12 +98,36 @@ def getAssignments():
 def getAssignment(assignment_id):
     if 'p_id' in session:
         with Database() as db:
-            query = 'select assignmentId, title, semester, teaches.section, courseName, submission from user, teaches, assignment, course where assignment.teachesId=teaches.teachesId and teaches.userId=user.userId and teaches.courseId=course.courseId and user.userId=%s'
+            query = 'select assignmentId, ui, title, semester, teaches.section, courseName, submission from user, teaches, assignment, course where assignment.teachesId=teaches.teachesId and teaches.userId=user.userId and teaches.courseId=course.courseId and user.userId=%s'
             params =(session['pid']) 
             db.execute(query,params)
             results = db.fetchall()
             col = db.description()
             data = [dict(zip(col, row)) for row in results]
+            if(data['ui']=='web'):
+                query = 'select * from web where assignmentId=%s'
+                params =(data['assignmentId'])
+                db.execute(query,params)
+                results = db.fetchall()
+                col = db.description()
+                sub = [dict(zip(col, row)) for row in results]
+                data['web'] = sub
+            elif(data['ui']=='rest'):
+                query = 'select * from rest where assignmentId=%s'
+                params =(data['assignmentId'])
+                db.execute(query,params)
+                results = db.fetchall()
+                col = db.description()
+                sub = [dict(zip(col, row)) for row in results]
+                data['rest'] = sub
+            else:
+                query = 'select * from cli where assignmentId=%s'
+                params =(data['assignmentId'])
+                db.execute(query,params)
+                results = db.fetchall()
+                col = db.description()
+                sub = [dict(zip(col, row)) for row in results]
+                data['rest'] = sub
         return render_template('prof_viewAssignment.html', name = session["name"], **data)
     else:
         return render_template('index.html')
@@ -118,9 +142,7 @@ def createAssigment():
 @app.route('/professor/create/assignment/confirm',methods=['POST'])
 def createAssigmentConfirm():
     #if 'p_id' in session:
-    if True:  
-        #pid = session["p_id"]
-        pid ="P002"
+    if True:
         print(request.is_json)
         content=request.json
         print(content)
@@ -129,12 +151,35 @@ def createAssigmentConfirm():
         database = content['database']
         ui=content['ui']
         submission=content['submission']
-        teachesId=content['teachesId']
         with Database() as db:
-            query = 'insert into assignment(title,descr,db,ui,submission,teachesId) values (%s,%s,%s,%s,%s,%s);'
-            params =([title,description,database,ui,submission,teachesId]) 
+            query = 'select teachesId from course,teaches where semester=%s and section=%s and coursename=%s and course.courseId=teaches.courseId;'
+            params = ([content['semester'], content['section'], content['course']])
             db.execute(query,params)
-            data="success"
+            results = db.fetchone()
+            query = 'insert into assignment(title,descr,db,ui,submission,teachesId) values (%s,%s,%s,%s,%s,%s);'
+            params =([title,description,database,ui,submission,results[0]])
+            db.execute(query,params)
+            query = 'select assignmentId from assignment where title=%s and descr=%s and db=%s and ui=%s and submission =%s and teachesId=%s'
+            params =([title,description,database,ui,submission,results[0]])
+            db.execute(query,params)
+            results = db.fetchone()
+            if(content['ui']=='web'):
+                for web in content['web']:
+                    query = 'insert into web values(%s,%s,%s)'
+                    params =(web['testno'], web['scenario'],content['assignmentId'])
+                    db.execute(query,params)
+                    data = "Success"
+            elif(content['ui']=='rest'):
+                for rest in content['web']:
+                    query = 'insert into rest values(%s,%s, %s, %s, %s)'
+                    params =(rest['testno'], rest['api'], rest['method'], rest['statusCode'], content['assignmentId'])
+                    db.execute(query,params)
+                    data = "Success"
+            else:
+                query = 'insert into cli values (execname,params,assignmentId)'
+                params =(content['execname'], content['params'],content['assignmentId'])
+                db.execute(query,params)
+                data = "Success"
         return json.dumps(data)
     else:
         return render_template('index.html')

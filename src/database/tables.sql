@@ -15,7 +15,7 @@ CREATE TABLE user (
     username VARCHAR(40), 
     email VARCHAR(40), 
     pass VARCHAR(20) NOT NULL,
-    userrole ENUM('prof', 'student')
+    userrole ENUM ('prof', 'student')
 );
 
 CREATE TABLE course( 
@@ -45,7 +45,7 @@ CREATE TABLE teaches(
 CREATE TABLE assignment(
     assignmentId int AUTO_INCREMENT primary key, 
     title varchar(30) not null, 
-    descr varchar(30), 
+    descr text, 
     db enum('prof','stu','none'),
     ui enum('web', 'rest', 'cli'),
     submission date,
@@ -57,32 +57,29 @@ CREATE TABLE web(
     testno int,
     scenario varchar(100), 
     assignmentId int, 
-    method varchar (10),
-    statusCode int,
     FOREIGN KEY (assignmentId) REFERENCES assignment(assignmentId)
 );
 
 CREATE TABLE rest(
     testno int,
-    api varchar(50), 
+    api varchar(50),
+    method varchar (10),
+    statusCode int,
     assignmentId int, 
     FOREIGN KEY (assignmentId) REFERENCES assignment(assignmentId)
 );
 
 CREATE TABLE cli(
     execName varchar(50), 
-    params varchar(50), 
     assignmentId int, 
     FOREIGN KEY(assignmentId) REFERENCES assignment(assignmentId)
 );
 
 CREATE TABLE submission(
-    submissionId int AUTO_INCREMENT primary key,
-    gitLink varchar(50),
-    docLink varchar(50),
-    toolPath varchar(50), 
-    reportLink varchar(50),
-    host varchar(50),
+    submissionId int not null primary key AUTO_INCREMENT,
+    gitLink varchar(100),
+    dockLink varchar(100),
+    docLink varchar(100),
     port int, 
     takesId int,
     assignmentId int,
