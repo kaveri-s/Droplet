@@ -134,4 +134,4 @@ def createSubmissionConfirm(data, sid):
 def get_num_files(path):
     return len(glob.glob1(path,"ip*"))
 
-print(getAssignment(1))
+print(getAssignments("P002","teaches"))

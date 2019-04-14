@@ -64,7 +64,7 @@ def profile():
     else:
         return render_template('index.html')
 
-@app.route('/professor/get/assignments')
+@app.route('/get/assignments')
 def getAssignments():
     if 'p_id' in session:
         return json.dumps(utilities.getAssignments(session["p_id"],"teaches"))
@@ -155,7 +155,7 @@ def createSubmission():
 @app.route('/student/create/submission/confirm',methods=["POST"])
 def createSubmissionConfirm():
     if 's_id' in session:
-        return utilities.createSubmissionConfirm(json.loads(request.data), session['p_id'])
+        return utilities.createSubmissionConfirm(json.loads(request.data), session['s_id'])
     else:
         return render_template('index.html')
 

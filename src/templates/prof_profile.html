@@ -30,7 +30,7 @@
         </thead>
         <tbody id="assignments">
             <tr>
-                <td><a href="professor/get/a01">Elective Registration</a></td>
+                <td><a href="get/a01">Elective Registration</a></td>
                 <td>7</td>
                 <td>C</td>
                 <td>Web Tech II</td>
@@ -49,12 +49,12 @@
     });
 
     $.ajax({
-        url: '/professor/get/assignments',
+        url: 'get/assignments',
         success: function (response) {
             data = JSON.parse(response);
             $("#assignments").html('');
             for (i = 0, len = data.length; i < len; i++) {
-                $("#assignments").append('<tr><td><a href="professor/get/'+data[i]['assignmentId']+'">'+data[i]['title']+'</a></td>'+
+                $("#assignments").append('<tr><td><a href="get/'+data[i]['assignmentId']+'">'+data[i]['title']+'</a></td>'+
                 '<td>'+data[i]['semester']+'</td>'+
                 '<td>'+data[i]['section']+'</td>'+
                 '<td>'+data[i]['courseName']+'</td>'+
