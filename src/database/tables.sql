@@ -1,5 +1,5 @@
 drop table submission;
-drop table cli;
+drop table cui;
 drop table rest;
 drop table web;
 drop table assignment;
@@ -7,7 +7,6 @@ drop table teaches;
 drop table takes;
 drop table course;
 drop table user;
-
 
 
 CREATE TABLE user (
@@ -47,7 +46,7 @@ CREATE TABLE assignment(
     title varchar(30) not null, 
     descr text, 
     db enum('prof','stu','none'),
-    ui enum('web', 'rest', 'cli'),
+    ui enum('web', 'rest', 'cui'),
     submission date,
     teachesId int,
     FOREIGN KEY (teachesId) REFERENCES teaches(teachesId)
@@ -69,7 +68,7 @@ CREATE TABLE rest(
     FOREIGN KEY (assignmentId) REFERENCES assignment(assignmentId)
 );
 
-CREATE TABLE cli(
+CREATE TABLE cui(
     execName varchar(50), 
     assignmentId int, 
     FOREIGN KEY(assignmentId) REFERENCES assignment(assignmentId)
