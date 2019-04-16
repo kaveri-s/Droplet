@@ -1,6 +1,7 @@
-from flask import Flask, flash,session, render_template, request, redirect, Response ,jsonify, json, url_for
+from flask import Flask, flash,session, render_template, request, redirect, Response ,jsonify, json, url_for, send_file
 from string import Template
 import utilities
+
 
 app = Flask(__name__)
 app.secret_key = 'droplet'
@@ -67,11 +68,12 @@ def profile():
 @app.route('/get/assignments')
 def getAssignments():
     if 'p_id' in session:
-        return json.dumps(utilities.getAssignments(session["p_id"],"teaches"))
+        return json.dumps(utilities.getAssignments(session["p_id"],"prof"))
     elif 's_id' in session:
-        return json.dumps(utilities.getAssignments(session["s_id"],"takes"))
+        return json.dumps(utilities.getAssignments(session["s_id"],"stu"))
     else:
         return render_template('index.html')
+
 
 @app.route('/get/<assignment_id>')
 def getAssignment(assignment_id):
@@ -87,33 +89,45 @@ def getAssignment(assignment_id):
 @app.route('/get/web/<assignment_id>')
 def getWeb(assignment_id):
     if 'p_id' in session or 's_id' in session:
-        return json.dumps(utilities.getWeb(assignment_id, session['p_id']))
+        return json.dumps(utilities.getWeb(assignment_id))
     else:
         return render_template('index.html')
+
 
 @app.route('/get/rest/<assignment_id>')
 def getRest(assignment_id):
     if 'p_id' in session or 's_id' in session:
-        return json.dumps(utilities.getRest(assignment_id, session['p_id']))
+        return json.dumps(utilities.getRest(assignment_id))
     else:
         return render_template('index.html')
 
 @app.route('/get/cui/<assignment_id>')
 def getCui(assignment_id):
     if 'p_id' in session or 's_id' in session:
-        return json.dumps(utilities.getCui(assignment_id, session['p_id']))
+        return json.dumps(utilities.getCui(assignment_id))
     else:
         return render_template('index.html')
 
-@app.route('/get/<assignment_id>/<submission_id>')
-def getSubmission(assignment_id, submission_id):
+@app.route('/get/<assignment_id>/submission')
+def getSubmission(assignment_id):
     if 'p_id' in session:
-        data = utilities.getSubmission(submission_id)
+        data = utilities.getSubmission(assignment_id)
         return render_template('prof_submission.html', name = session["name"], **data)
     elif 's_id' in session:
-        return json.dumps(utilities.getSubmission(submission_id))
+        return json.dumps(utilities.getSubmission(assignment_id))
     else:
-        return render_template('index.html') 
+        return render_template('index.html')
+
+@app.route('/cases/<assignment_id>', methods=['GET','POST'])
+def getCases(assignment_id):
+    return send_file('../tests/'+str(assignment_id)+'/cases.zip', attachment_filename='cases.zip')
+
+@app.route('/run/<submission_id>/')
+def runDocker(submission_id):
+    if 'p_id' in session or 's_id' in session:
+        return json.dumps(utilities.runDocker(submission_id)) 
+    else:
+        return render_template('index.html')
 
 #####
 # Prof Pages
@@ -137,7 +151,7 @@ def createAssignmentConfirm():
 def getSubmissions(assignment_id):
     if 'p_id' in session:
         data = utilities.getSubmissions(assignment_id)
-        return render_template('prof_submission.html', name = session["name"], **data)
+        return json.dumps(data)
     else:
         return render_template('index.html')
 

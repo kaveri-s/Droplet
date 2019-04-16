@@ -17,108 +17,100 @@
 
 
     <!-- Assignment Details -->
-    <div id="assignment-details" class="card">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>Title</td>
-                    <td>Build an Elective Recommender</td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at turpis sit amet eros
-                        molestie scelerisque a a lacus. Cras in auctor nisl. Quisque venenatis est mi. Pellentesque
-                        dictum arcu vehicula, auctor velit id, efficitur purus. Cras suscipit, arcu at sodales
-                        facilisis, nunc tortor interdum massa, vitae sollicitudin magna nunc in lectus. Suspendisse quis
-                        accumsan lorem. Aenean scelerisque a mi non laoreet.</td>
-                </tr>
-                <tr>
-                    <td>Semester</td>
-                    <td>7</td>
-                </tr>
+    <div class="card" id="assignment-details">
+        <div class="card-header">
+            <h2 class="dark-grey-text">{{title}}</h2>
+            <div class="row">
+                <span class="rounded blue-grey text-white m-2 ml-3 p-1 pl-2 pr-2">{{semester}}</span>
+                <span class="rounded blue-grey text-white m-2 p-1 pl-2 pr-2">{{section}}</span>
+                <span class="rounded blue-grey text-white m-2 p-1 pl-2 pr-2">{{courseName}}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row dark-grey-text">
+                <div class="col-9">
+                    <h5 class="font-weight-bold">Description</h5>
+                    <p>{{descr}}</p>
+                    <div id="ui-results">
 
-                <tr>
-                    <td>Section</td>
-                    <td>C</td>
-                </tr>
-                <tr>
-                    <td>Course</td>
-                    <td>Web Tech II</td>
-                </tr>
-                <tr>
-                    <td>Database</td>
-                    <td>Yes</td>
-                </tr>
-                <tr>
-                    <td>Interaction Type</td>
-                    <td>Web UI</td>
-                </tr>
-                <tr>
-                    <td>Submission Date</td>
-                    <td>20/3/2019</td>
-                </tr>
-                <tr>
-                    <td>Test Cases</td>
-                    <td>
-                        <a data-toggle="modal" data-target="#Case1">Test Case 1</a><br>
-                        <a data-toggle="modal" data-target="#Case2">Test Case 2</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <h6 class="font-weight-bold">Database</h6>
+                        <p>{{db}}</p>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold">UI</h6>
+                        <p>{{ui}}</p>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold">Submission Date</h6>
+                        <p>{{submission}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="/cases/{{assignmentId}}" target="blank"><button id="download"
+                    class="mt-0 btn btn-blue-grey font-weight-bold">Download Test Cases</button></a>
+        </div>
     </div>
 
-    <!-- The Modals -->
-    <div class="modal" id="Case1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Content of Test Case File
+    <hr class="mt-5 mb-5 border-light">
+
+    <!-- Create Submission -->
+    <button id="submit" class="btn btn-dark-green">Submit Assignment</button>
+
+    <!-- Generate Dockerfile -->
+    <button id="dockerfile" class="btn btn-blue-grey float-right">Generate Dockerfile</button>
+
+
+    <!-- Submission Details -->
+
+    <div class="card mt-5" id="submission-details">
+        <div class="card-header">
+            <h2 class="dark-grey-text">Submission Details</h2>
+
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-around">
+                <div class="col-2 text-center">
+                    <a href="" id="gitLink">
+                        <img style="width: 3vw; height: auto" src="{{ url_for('static',filename = 'img/git.png')}}"
+                            alt="Source Code">
+                    </a>
+                    <p class="card-text">Source Code</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href="" id="dockLink">
+                        <img style="width: 3vw; height: auto" src="{{ url_for('static',filename = 'img/docker.png')}}"
+                            alt="Source Code">
+                    </a>
+                    <p class="card-text">Dockerfile</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href="" id="docLink">
+                        <img style="width: 3vw; height: auto" src="{{ url_for('static',filename = 'img/report.png')}}"
+                            alt="Source Code">
+                    </a>
+                    <p class="card-text ">Report</p>
                 </div>
             </div>
         </div>
     </div>
 
     <hr class="mt-5 border-light">
-
-
-    <!-- Create Submission -->
-    <button id="submission" class="btn btn-dark-green" type="submit">Submit Assignment</button>
-
-    <!-- Generate Dockerfile -->
-    <button id="dockerfile" class="btn btn-blue-grey float-right" type="submit">Generate Dockerfile</button>
-
-    <!-- Submission Details -->
-
-    <h3 class="text-light mt-3">Submission Details</h3>
-    <div id="submission-details" class="card mt-3 mb-3">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>Section</td>
-                        <td>C</td>
-                    </tr>
-                    <tr>
-                        <td>Source Code</td>
-                        <td><a href="https://github.com/kaveri-s/WT2">WT2</a></td>
-                    </tr>
-                    <tr>
-                        <td>DockerFile</td>
-                        <td><a href="https://hub.docker.com/r/rubyphoenix/vertx-sample">Sample Java App</a></td>
-                    </tr>
-                    <tr>
-                        <td>Report</td>
-                        <td><a href="https://docs.google.com/document/d/17UD8GLL9hJp31rW4oaSXXHeTH2qk_fm0gu7V3Ro-etw/">Report-01FB15ECS146</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="mb-5 container">
+        <h3 class="text-light mt-5">Spin Docker</h3>
+        <button id="test" class="m-3 btn btn-blue-grey font-weight-bold">Test</button>
+        <div class="card m-3" id="results">
+            <div class="card-body" id="result-body">
+                <span id="spinner">Loading....</span>
+            </div>
         </div>
-    
-    <hr class="mt-5 border-light">
-    <h3 class="text-light mt-3">Docker Controller</h3>
-
+        <button id="stop" class="m-3 btn btn-blue-grey font-weight-bold">Stop</button>
+    </div>
 </div>
 
 
@@ -127,11 +119,80 @@
 
 {% block script %}
 <script>
-    $('#submission').click(function(){
+    $('#results').hide();
+    $('#stop').hide();
+    $('#submit').click(function () {
         window.location.href = '/student/create/submission'
     });
-    $('#dockerfile').click(function(){
+    $('#dockerfile').click(function () {
         window.location.href = '/student/create/dockerfile'
+    });
+    $.ajax({
+        url: '/get/{{assignmentId}}/submission',
+        success: function (response) {
+            data = JSON.parse(response);
+            console.log(data);
+            if (data == 'Not Submitted') {
+                $('submission-details').hide();
+            } else {
+                $("#submit").attr("disabled", true);
+                $('#gitLink').attr("href", data["gitLink"]);
+                $('#dockLink').attr("href", data["dockLink"]);
+                $('#docLink').attr("href", data["docLink"]);
+            }
+
+            if (data['ui'] == 'cui') {
+                console.log('Here');
+                $.ajax({
+                    url: '/get/cui/{{assignmentId}}',
+                    success: function (response) {
+                        data = JSON.parse(response);
+                        console.log(data);
+                        $('#ui-results').append(
+                            '<h5 class="font-weight-bold">CUI</h5><p>Executable Name: ' +
+                            data[0][
+                                'execName'
+                            ] + '</p>')
+                    }
+                });
+            } else if (data['ui'] == 'rest') {
+                console.log('Here');
+                $.ajax({
+                    url: '/get/rest/{{assignmentId}}',
+                    success: function (response) {
+                        data = JSON.parse(response);
+                        console.log(data);
+                        $('#ui-results').append('<h5 class="font-weight-bold">REST</h5>');
+                        for (i = 0, len = data.length; i < len; i++) {
+                            $('#ui-results').append('<p><b>Test ' + (i + 1) +
+                                ':</b></p><p>Api: ' +
+                                data[i]['api'] + '</p><p>Method: ' + data[i]['method'] +
+                                '</p><p>Status Code: ' + data[i]['statusCode'] + '</p>');
+                        }
+                    }
+                });
+            }
+
+            $('#test').click(function () {
+                $('#results').show();
+                $.ajax({
+                    url: '/run/{{submissionId}}',
+                    success: function (response) {
+                        data = JSON.parse(response);
+                        console.log(data);
+                        $('#spinner').hide();
+                        for (i = 0, len = data.length; i < len; i++) {
+                            console.log('Hi');
+                            console.log(data[i]);
+                            $("#result-body").append('<p class="dark-grey-text">Test ' +
+                                (i + 1) + ': ' +
+                                data[i]['r'] + '</p>');
+                        }
+                    }
+                });
+
+            });
+        }
     });
 </script>
 {% endblock %}

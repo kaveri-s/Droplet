@@ -15,65 +15,44 @@
 
 <div class="container">
     <!-- Assignment Details -->
-    <div id="assignment-details" class="card">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>Title</td>
-                    <td> {{title}}</td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td>{{descr}}</td>
-                </tr>
-                <tr>
-                    <td>Semester</td>
-                    <td>{{semester}}</td>
-                </tr>
-
-                <tr>
-                    <td>Section</td>
-                    <td>{{section}}</td>
-                </tr>
-                <tr>
-                    <td>Course</td>
-                    <td>{{courseName}}</td>
-                </tr>
-                <tr>
-                    <td>Database</td>
-                    <td>{{db}}</td>
-                </tr>
-                <tr>
-                    <td>Interaction Type</td>
-                    <td>{{ui}}</td>
-                </tr>
-                <tr>
-                    <td>Submission Date</td>
-                    <td>{{submission}}</td>
-                </tr>
-                <tr>
-                    <td>Test Cases</td>
-                    <td>
-                        <!-- <a data-toggle="modal" data-target="#Case1">Test Case 1</a><br>
-                        <a data-toggle="modal" data-target="#Case2">Test Case 2</a> -->
-                        <a href="/get/case" target="blank">Test Case 1</a><br>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- The Modals -->
-    <!-- <div class="modal" id="Case1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    "Input"
-                    "Output"
+    <div class="card" id="assignment-details">
+        <div class="card-header">
+            <h2 class="dark-grey-text">{{title}}</h2>
+            <div class="row">
+                <span class="rounded blue-grey text-white m-2 ml-3 p-1 pl-2 pr-2">{{semester}}</span>
+                <span class="rounded blue-grey text-white m-2 p-1 pl-2 pr-2">{{section}}</span>
+                <span class="rounded blue-grey text-white m-2 p-1 pl-2 pr-2">{{courseName}}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row dark-grey-text">
+                <div class="col-9">
+                    <h5 class="font-weight-bold">Description</h5>
+                    <p>{{descr}}</p>
+                    <div id="ui-results">
+                        
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <h6 class="font-weight-bold">Database</h6>
+                        <p>{{db}}</p>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold">UI</h6>
+                        <p>{{ui}}</p>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold">Submission Date</h6>
+                        <p>{{submission}}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> -->
+        <div class="card-footer">
+            <a href="/cases/{{assignmentId}}" target="blank"><button id="download" class="mt-0 btn btn-blue-grey font-weight-bold">Download Test Cases</button></a>
+        </div>
+    </div>
 
     <hr class="mt-5 border-light">
 
@@ -84,14 +63,10 @@
             <thead>
                 <tr>
                     <th>Student ID</th>
-                    <th>Test Results</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><a href="a01/s01">01FB15ECS146</a></td>
-                    <td>Yes</td>
-                </tr>
+            <tbody id="submissions">
+
             </tbody>
         </table>
     </div>
@@ -103,35 +78,41 @@
 
 {% block script %}
 <script>
-    $("#create").click(function () {
-        window.location.href = '/professor/create/assignment'
+
+    $.ajax({
+        url: '/professor/get/{{assignmentId}}',
+        success: function (response) {
+            data = JSON.parse(response);
+            $("#submissions").html('');
+            for (i = 0, len = data.length; i < len; i++) {
+                $("#submissions").append('<tr><td><a href="/get/{{assignmentId}}/submission">' +
+                    data[i]['userId'] + '</a></td></tr>');
+            }
+        }
     });
 
-    if ('cui' == '{{ui}}') {
+    if ('{{ui}}' == 'cui') {
         console.log('Here');
         $.ajax({
             url: '/get/cui/{{assignmentId}}',
             success: function (response) {
                 data = JSON.parse(response);
                 console.log(data);
-
-                // $("#web").html('');
-                // for (i = 0, len = data.length; i < len; i++) {
-                //     $("web").append('<td><a href="professor/get/' + data[i]['assignmentId'] +
-                //         '">' +
-                //         data[i]['title'] + '</a></td>' +
-                //         '<td>' + data[i]['semester'] + '</td>' +
-                //         '<td>' + data[i]['section'] + '</td>' +
-                //         '<td>' + data[i]['courseName'] + '</td>' +
-                //         '<td>' + data[i]['submission'] + '</td>');
-                // }
-                $.ajax({
-                    url: '/get/cui/{{assignmentId}}',
-                    success: function (response) {
-                        data = JSON.parse(response);
-                        console.log(data);
-                    }
-                });
+                $('#ui-results').append('<h5 class="font-weight-bold">CUI</h5><p>Executable Name: '+data[0]['execName']+'</p>')
+            }
+        });
+    }
+    else if ('{{ui}}' == 'rest') {
+        console.log('Here');
+        $.ajax({
+            url: '/get/rest/{{assignmentId}}',
+            success: function (response) {
+                data = JSON.parse(response);
+                console.log(data);
+                $('#ui-results').append('<h5 class="font-weight-bold">REST</h5>');
+                for (i = 0, len = data.length; i < len; i++) {
+                    $('#ui-results').append('<p><b>Test '+(i+1)+':</b></p><p>Api: '+data[i]['api']+'</p><p>Method: ' + data[i]['method'] + '</p><p>Status Code: ' + data[i]['statusCode'] + '</p>');
+                }
             }
         });
     }

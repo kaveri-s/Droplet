@@ -15,39 +15,50 @@
 
 <div class="container">
     <!-- Submission Details -->
-    <div id="submission-details" class="card">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>Student ID</td>
-                    <td>01FB15ECS146</td>
-                </tr>
-                <tr>
-                    <td>Section</td>
-                    <td>C</td>
-                </tr>
-                <tr>
-                    <td>Source Code</td>
-                    <td><a href="https://github.com/kaveri-s/WT2">WT2</a></td>
-                </tr>
-                <tr>
-                    <td>DockerFile</td>
-                    <td><a href="https://hub.docker.com/r/rubyphoenix/vertx-sample">Sample Java App</a></td>
-                </tr>
-                <tr>
-                    <td>Report</td>
-                    <td><a href="https://docs.google.com/document/d/17UD8GLL9hJp31rW4oaSXXHeTH2qk_fm0gu7V3Ro-etw/">Report-01FB15ECS146</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="card" id="submission-details">
+        <div class="card-header">
+            <h2 class="dark-grey-text">{{userId}}</h2>
+
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-around">
+                <div class="col-2 text-center">
+                    <a href={{gitLink}}>
+                        <img style="width: 3vw; height: auto" src="{{ url_for('static',filename = 'img/git.png')}}"
+                            alt="Source Code">
+                    </a>
+                    <p class="card-text">Source Code</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href={{dockLink}}>
+                        <img style="width: 3vw; height: auto" src="{{ url_for('static',filename = 'img/docker.png')}}"
+                            alt="Source Code">
+                    </a>
+                    <p class="card-text">Dockerfile</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href={{docLink}}>
+                        <img style="width: 3vw; height: auto" src="{{ url_for('static',filename = 'img/report.png')}}"
+                            alt="Source Code">
+                    </a>
+                    <p class="card-text ">Report</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <hr class="mt-5 border-light">
 
     <!--Docker Controller-->
     <div class=" container">
-        <h3 class="text-light mt-5">Docker Controller</h3>
+        <h3 class="text-light mt-5">Spin Docker</h3>
+        <button id="test" class="m-3 btn btn-blue-grey font-weight-bold">Test</button>
+        <div class="card m-3" id="results">
+            <div class="card-body" id="result-body">
+                <span id="spinner">Loading....</span>
+            </div>
+        </div>
+        <button id="stop" class="m-3 btn btn-blue-grey font-weight-bold">Stop</button>
     </div>
 </div>
 
@@ -55,5 +66,24 @@
 {% endblock %}
 
 {% block script %}
-
+<script>
+    $('#results').hide();
+    $('#stop').hide();
+    $('#test').click(function () {
+        $('#results').show();
+        $.ajax({
+            url: '/run/{{submissionId}}',
+            success: function (response) {
+                data = JSON.parse(response);
+                console.log(data);
+                $('#spinner').hide();
+                for (i = 0, len = data.length; i < len; i++) {
+                    console.log('Hi');
+                    console.log(data[i]);
+                    $("#result-body").append('<p class="dark-grey-text">Test '+ (i+1) + ': ' + data[i]['r'] + '</p>');
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}
