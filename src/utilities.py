@@ -23,7 +23,7 @@ def getAssignments(id, role):
         if(role == "prof"):
             query = 'select assignmentId, title, semester, section, courseName, submission from user, teaches, assignment, course where assignment.teachesId=teaches.teachesId and teaches.userId=user.userId and teaches.courseId=course.courseId and user.userId=%s order by submission desc'
         else:
-            query = 'select assignmentId, title, semester, takes.section, courseName, submission from user, takes, assignment, course, teaches where assignment.teachesId=teaches.teachesId and takes.userId=user.userId and takes.courseId=course.courseId and takes.section=teaches.section and user.userId=%s order by submission desc'
+            query = 'select assignment.assignmentId, title, semester, takes.section, courseName, submission from submission, assignment, teaches, takes, user, course where submission.assignmentId=assignment.assignmentId and assignment.teachesId=teaches.teachesId and submission.takesId=takes.takesId and takes.userId=user.userId and course.courseId=takes.courseId and user.userId=%s order by submission desc'
         print(query)
         params =([id])
         db.execute(query,params)
@@ -92,7 +92,7 @@ def getSubmissions(assignment_id):
 # get one submission
 def getSubmission(assignment_id):
     with Database() as db:
-        query = 'select assignment.assignmentId, submissionId, gitLink, dockLink, docLink, port, ui, takes.userId from submission,assignment,takes where assignment.assignmentId=%s and submission.assignmentId=assignment.assignmentId and submission.takesId=takes.takesId;'
+        query = 'select assignment.assignmentId, submissionId, gitLink, dockLink, docLink, ui, takes.userId from submission,assignment,takes where assignment.assignmentId=%s and submission.assignmentId=assignment.assignmentId and submission.takesId=takes.takesId;'
         params =([assignment_id]) 
         db.execute(query,params)
         results = db.fetchall()
@@ -103,37 +103,70 @@ def getSubmission(assignment_id):
             data = dict(zip(col, results[0]))
     return data
 
+# get details for creating assignment
+def createAssignment(pid):
+    with Database() as db:
+        #get semesters
+        query = 'select semester from teaches, course where teaches.courseId = course.courseId and userId=%s group by semester'
+        params =([pid]) 
+        db.execute(query,params)
+        results = db.fetchall()
+        data = [row[0] for row in results]
+    return data
+
+
+def sectionFromSem(pid, semester):
+    with Database() as db:
+        #get sections
+        query = 'select section from teaches, course where teaches.courseId = course.courseId and userId=%s and semester=%s group by section'
+        params =([pid, semester]) 
+        db.execute(query,params)
+        results = db.fetchall()
+        data = [row[0] for row in results]
+    return data
+
+def courseFromSectionandSem(pid, semester, section):
+    with Database() as db:
+        #get sections
+        query = 'select courseName from teaches, course where teaches.courseId=course.courseId and teaches.userId=%s and semester=%s and section=%s group by courseName'
+        params =([pid, semester, section]) 
+        db.execute(query,params)
+        results = db.fetchall()
+        data = [row[0] for row in results]
+    return data
+
 # create an assignment
 def createAssignmentConfirm(data, pid):
-    with Database() as db:
-        query = 'select teachesId from course,teaches where semester=%s and section=%s and coursename=%s and course.courseId=teaches.courseId;'
-        params = ([data['semester'], data['section'], data['course']])
-        db.execute(query,params)
-        results = db.fetchone()
-        query = 'insert into assignment(title,descr,db,ui,submission,teachesId) values (%s,%s,%s,%s,%s,%s);'
-        params =([data['title'],data['description'],data['database'],data['ui'],data['submission'],results[0]])
-        db.execute(query,params)
-        query = 'select assignmentId from assignment where title=%s and descr=%s and db=%s and ui=%s and submission =%s and teachesId=%s'
-        params =([data['title'],data['description'],data['database'],data['ui'],data['submission'],results[0]])
-        db.execute(query,params)
-        results = db.fetchone()
-        if(data['ui']=='web'):
-            for testno in range(1, data['testno']+1):
-                query = 'insert into web values(%s,%s,%s)'
-                params =(testno, data['scenario'+str(testno)],data['assignmentId'])
-                db.execute(query,params)
-                return "Success"
-        elif(data['ui']=='rest'):
-            for testno in range(1, data['testno']+1):
-                query = 'insert into rest values(%s,%s, %s, %s, %s)'
-                params =(testno, data['api'+str(testno)], data['method'+str(testno)], data['status_code'+str(testno)], data['assignmentId'])
-                db.execute(query,params)
-                return "Success"
-        else:
-            query = 'insert into cui values (execname,params,assignmentId)'
-            params =(data['execname'], data['params'],data['assignmentId'])
-            db.execute(query,params)
-            return "Success"
+    print(data)
+    # with Database() as db:
+    #     query = 'select teachesId from course,teaches where semester=%s and section=%s and coursename=%s and course.courseId=teaches.courseId;'
+    #     params = ([data['semester'], data['section'], data['course']])
+    #     db.execute(query,params)
+    #     results = db.fetchone()
+    #     query = 'insert into assignment(title,descr,db,ui,submission,teachesId) values (%s,%s,%s,%s,%s,%s);'
+    #     params =([data['title'],data['description'],data['database'],data['ui'],data['submission'],results[0]])
+    #     db.execute(query,params)
+    #     query = 'select assignmentId from assignment where title=%s and descr=%s and db=%s and ui=%s and submission =%s and teachesId=%s'
+    #     params =([data['title'],data['description'],data['database'],data['ui'],data['submission'],results[0]])
+    #     db.execute(query,params)
+    #     results = db.fetchone()
+    #     if(data['ui']=='web'):
+    #         for testno in range(1, data['testno']+1):
+    #             query = 'insert into web values(%s,%s,%s)'
+    #             params =(testno, data['scenario'+str(testno)],data['assignmentId'])
+    #             db.execute(query,params)
+    #             return "Success"
+    #     elif(data['ui']=='rest'):
+    #         for testno in range(1, data['testno']+1):
+    #             query = 'insert into rest values(%s,%s, %s, %s, %s)'
+    #             params =(testno, data['api'+str(testno)], data['method'+str(testno)], data['status_code'+str(testno)], data['assignmentId'])
+    #             db.execute(query,params)
+    #             return "Success"
+    #     else:
+    #         query = 'insert into cui values (execname,params,assignmentId)'
+    #         params =(data['execname'], data['params'],data['assignmentId'])
+    #         db.execute(query,params)
+    #         return "Success"
 
 
 # Create a submission
@@ -217,5 +250,13 @@ def getdockername(dockLink):
     parts = dockLink.split('/')
     return parts[-2]+'/'+parts[-1]
 
+def stopDocker(container_id):
+    return rundockers.stopDocker(container_id)
+
+
+
 # runDocker(1)
 # print(app_config)
+# print(createAssignment("P002"))
+# print(sectionFromSem("P002",3))
+# print(courseFromSectionandSem("P002", 3, "A"))

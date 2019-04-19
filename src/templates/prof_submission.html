@@ -71,6 +71,8 @@
     $('#stop').hide();
     $('#test').click(function () {
         $('#results').show();
+        $("#spinner").show();
+        $('#stop').hide();
         $.ajax({
             url: '/run/{{submissionId}}',
             success: function (response) {
@@ -80,7 +82,25 @@
                 for (i = 0, len = data.length; i < len; i++) {
                     console.log('Hi');
                     console.log(data[i]);
-                    $("#result-body").append('<p class="dark-grey-text">Test '+ (i+1) + ': ' + data[i]['r'] + '</p>');
+                    if(data['ui'] == 'web'){
+                        $("#result-body").append('<p class="dark-grey-text" id="web-url">Please copy paste this url on the browser having selenium:</p><p class="dark-grey-text">'+data['url']+'</p>');
+                        $('#stop').show();
+                    }
+                    else{
+                        $("#result-body").append('<p class="dark-grey-text">Test '+ (i+1) + ': ' + data[i]['r'] + '</p>');
+                    }
+                }
+            }
+        });
+    });
+    $('#stop').click(function(){
+        $.ajax({
+            url: '/stop/'+data[0]['containerId'],
+            success: function (response) {
+                data = JSON.parse(response);
+                console.log(data);
+                if(data == 'Success'){
+                    $('#web-url').text('Container Stopped Successfully.');
                 }
             }
         });

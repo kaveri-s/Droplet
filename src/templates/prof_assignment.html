@@ -92,7 +92,7 @@
     });
 
     if ('{{ui}}' == 'cui') {
-        console.log('Here');
+        console.log('CUI');
         $.ajax({
             url: '/get/cui/{{assignmentId}}',
             success: function (response) {
@@ -103,7 +103,7 @@
         });
     }
     else if ('{{ui}}' == 'rest') {
-        console.log('Here');
+        console.log('Rest');
         $.ajax({
             url: '/get/rest/{{assignmentId}}',
             success: function (response) {
@@ -111,7 +111,21 @@
                 console.log(data);
                 $('#ui-results').append('<h5 class="font-weight-bold">REST</h5>');
                 for (i = 0, len = data.length; i < len; i++) {
-                    $('#ui-results').append('<p><b>Test '+(i+1)+':</b></p><p>Api: '+data[i]['api']+'</p><p>Method: ' + data[i]['method'] + '</p><p>Status Code: ' + data[i]['statusCode'] + '</p>');
+                    $('#ui-results').append('<p><b>Test '+data[i]['testno']+':</b></p><p>Api: '+data[i]['api']+'</p><p>Method: ' + data[i]['method'] + '</p><p>Status Code: ' + data[i]['statusCode'] + '</p>');
+                }
+            }
+        });
+    }
+    else if ('{{ui}}' == 'web') {
+        console.log('Web');
+        $.ajax({
+            url: '/get/web/{{assignmentId}}',
+            success: function (response) {
+                data = JSON.parse(response);
+                console.log(data);
+                $('#ui-results').append('<h5 class="font-weight-bold">REST</h5>');
+                for (i = 0, len = data.length; i < len; i++) {
+                    $('#ui-results').append('<p><b>Scenario '+data[i]['testno']+':</b></p><p>'+data[i]['scenario']+'</p>');
                 }
             }
         });

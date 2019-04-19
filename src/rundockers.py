@@ -79,6 +79,13 @@ def runTest(image, path):
     container = client.containers.run(image, volumes={path: {'bind': '/mnt/tests', 'mode': 'ro'}}, remove=True)
     print("done")
 
+def stopDocker(container_id):
+    client = docker.from_env()
+    container = client.containers.get(container_id)
+    container.stop()
+    container.remove()
+    return 'Success'
+
 # runCUI("algo", cli_tests)
 # runRest("rest",config, tests)
 # runWeb("web",config,'')

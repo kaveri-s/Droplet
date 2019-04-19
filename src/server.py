@@ -129,6 +129,14 @@ def runDocker(submission_id):
     else:
         return render_template('index.html')
 
+@app.route('/stop/<container_id>/')
+def stopDocker(container_id):
+    if 'p_id' in session or 's_id' in session:
+        return json.dumps(utilities.stopDocker(container_id)) 
+    else:
+        return render_template('index.html')
+
+
 #####
 # Prof Pages
 #####
@@ -136,7 +144,24 @@ def runDocker(submission_id):
 @app.route('/professor/create/assignment')
 def createAssigment():
     if 'p_id' in session:
-        return render_template('prof_create.html', name = session["name"])
+        data = utilities.createAssignment(session['p_id'])
+        return render_template('prof_create.html', name = session["name"], semesters = data)
+    else:
+        return render_template('index.html')
+
+@app.route('/professor/get/<semester>/sections')
+def sectionFromSem(semester):
+    if 'p_id' in session:
+        data = utilities.sectionFromSem(session['p_id'], semester)
+        return json.dumps(data)
+    else:
+        return render_template('index.html')
+
+@app.route('/professor/get/<semester>/<section>/courses')
+def courseFromSectionandSem(semester, section):
+    if 'p_id' in session:
+        data = utilities.courseFromSectionandSem(session['p_id'], semester, section)
+        return json.dumps(data)
     else:
         return render_template('index.html')
 
