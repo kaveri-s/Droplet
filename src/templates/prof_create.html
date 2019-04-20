@@ -82,16 +82,21 @@
                         <label><input type="radio" name="uitype" value="rest">Rest API</label>
                     </div>
                     <div class="radio ml-3">
-                        <label><input type="radio" name="uitype" value="cui">CLI</label>
+                        <label><input type="radio" name="uitype" value="cui">CUI</label>
                     </div>
                 </div>
             </div>
 
             <div id="uispecs" class="mt-3">
+                <button class="btn btn-blue mt-5" id="add" type="button">Add</button>
+                <h4 id="ui-title"></h4>
+                <div id="ui-body">
+
+                </div>
 
             </div>
 
-            <button type="submit" class="btn btn-blue" disabled>Create</button>
+            <button id="confirm" type="submit" class="btn btn-blue" disabled>Create</button>
         </form>
     </div>
 </div>
@@ -101,6 +106,7 @@
 
 {% block script %}
 <script>
+    $('#add').hide();
     $('#semester').change(function () {
         $.getJSON("/professor/get/" + $('#semester').val() + "/sections", function (data) {
             $("#section").html('<option disabled selected value> -- select an option -- </option>');
@@ -109,7 +115,7 @@
             });
         });
     });
-    
+
     $('#section').change(function () {
         $.getJSON("/professor/get/" + $('#semester').val() + "/" + $('#section').val() + "/courses", function (
             data) {
@@ -119,23 +125,39 @@
             });
         });
     });
-    
-    $('#uitype').change(function () {
-        if ($('#uitype').val == 'web') {
-            $('#uispecs').html('<h4>Scenarios</h4>');
-            $('#uispecs').append(
-                '<input type="textarea" class="form-control rounded-0" placeholder="Enter a scenario" name="descr">'
-                );
-            $('#uispecs').append(
-                '<button class="btn btn-blue" id="add-scenario">Add Scenario</button>'
-            );
+
+    var addString = '';
+
+    $('input[type=radio][name=uitype]').change(function () {
+        console.log(this.value);
+        if (this.value == 'web') {
+            $('#ui-title').text('Scenarios');
+            $('#add').show();
+            addString =
+                '<input type="textarea" class="form-control rounded-0 m-3 mt-5" placeholder="Enter a scenario" name="descr">';
+            $('#ui-body').html(addString);
+        } else if (this.value == 'rest') {
+            $('#ui-title').text('Apis');
+            $('#add').show();
+            addString = '<input type="text" class="form-control rounded-0" placeholder="API" name="descr">' +
+                '<input type="text" class="form-control rounded-0" placeholder="Method" name="method">' +
+                '<input type="text" class="form-control rounded-0" placeholder="Status Code" name="status code">' +
+                '<input type="file" class="form-control rounded-0" placeholder="input" name="input">' +
+                '<input type="file" class="form-control rounded-0" placeholder="output" name="output">';
+            $('#ui-body').html(addString);
+        } else if (this.value == 'cui') {
+            $('#ui-title').text('Files');
+            $('#add').show();
+            addString =
+                '<input type="file" class="form-control rounded-0" placeholder="input" name="input">' +
+                '<input type="file" class="form-control rounded-0" placeholder="output" name="output">';
+            $('#ui-body').html(addString);
         }
     });
 
-    $('#add-scenario').click(function(){
-        $('#uispecs').append(
-                '<input type="textarea" class="form-control rounded-0" placeholder="Enter a scenario" name="descr">'
-        );
+    $('#add').click(function () {
+        $('#ui-body').append(addString);
+        return false;
     });
 </script>
 {% endblock %}
