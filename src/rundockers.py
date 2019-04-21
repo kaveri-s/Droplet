@@ -63,6 +63,26 @@ def runRest(image, config, tests, path):
                     tests[test]["r"] = 'Error in body'
             else:
                 tests[test]["r"] = "Wrong Status Code"
+
+        elif(tests[test]["method"]=='POST'):
+            print('Trying to POST')
+            try:
+                real = requests.post(url, data = open(tests[test]["i"]).read().rstrip())
+                print(real.status_code)
+                print(real.text)
+            except Exception as e:
+                print(e)
+                container.logs()
+            expected = open(tests[test]["o"]).read().rstrip()
+            if(real.status_code == tests[test]["status"]):
+                if(real.text.rstrip() == expected):
+                    tests[test]["r"] = "Success"
+                else:
+                    tests[test]["r"] = 'Error in body'
+            else:
+                tests[test]["r"] = "Wrong Status Code"
+        
+            
     container.stop()
     container.remove()
     return tests
@@ -73,11 +93,6 @@ def runWeb(image, config):
     print(url)
     return [{'url':url, 'containerId':container.id}]
 
-
-def runTest(image, path):
-    client = docker.from_env()
-    container = client.containers.run(image, volumes={path: {'bind': '/mnt/tests', 'mode': 'ro'}}, remove=True)
-    print("done")
 
 def stopDocker(container_id):
     client = docker.from_env()

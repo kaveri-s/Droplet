@@ -26,29 +26,33 @@
 
 <div class="container">
     <div class="card p-5 mb-5">
-        <form action="professor/create/assignment/confirm">
+        <form action="/student/create/{{assignmentId}}/submission/confirm/{{ui}}" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="source">Source Code Link</label>
-                <input type="text" class="form-control" id="source" placeholder="Enter link to source code"
-                    name="source">
+                <input type="text" class="form-control" id="gitlink" placeholder="Enter link to source code"
+                    name="gitlink" required>
             </div>
             <div class="form-group">
                 <label for="docker">Dockerfile Link</label>
-                <input type="text" class="form-control" id="docker" placeholder="Enter link to Dockerfile"
-                    name="docker">
+                <input type="text" class="form-control" id="docklink" placeholder="Enter link to Dockerfile"
+                    name="docklink" required>
             </div>
             <div class="form-group">
                 <label for="report">Report Link</label>
-                <input type="text" class="form-control" id="report" placeholder="Enter link to report" name="report">
+                <input type="text" class="form-control" id="doclink" placeholder="Enter link to report" name="doclink" required>
             </div>
-            <div class="form-group">
-                <h5>Database</h5>
-                <input type="file" class="form-control" id="database" name="database">
+            <div id="selenium" class="form-group mt-5">
+                <h5>Selenium Script</h5>
+                <input type="file" class="form-control m-3" id="selenium" placeholder="Upload .side file" name="selenium">
+                <label for="api-port" class="m-3">Port where app is served: </label>
+                <input type="text" class="form-control" id="web-port" placeholder="Enter link to report" name="web-port">
             </div>
-            <div class="form-group">
-                <h5>Selenium</h5>
-                <label for="selenium">Scenario 1</label>
-                <input type="file" class="form-control" id="selenium" name="selenium">
+
+            <div id="postman" class="form-group mt-5">
+                <h5>Postman Collection</h5>
+                <input type="file" class="form-control m-3" id="postman" placeholder="Upload .json file of collection" name="postman">
+                <label for="api-port" class="m-3">Port where app is served: </label>
+                <input type="text" id="api-port" placeholder="Enter port number" name="api-port">
             </div>
 
             <button type="submit" class="btn btn-blue">Submit</button>
@@ -61,6 +65,13 @@
 
 {% block script %}
 <script>
-    
+$('#selenium').hide();
+$('#postman').hide();
+if('{{ui}}' == 'web'){
+    $('#selenium').show();
+}
+else if('{{ui}}' == 'rest') {
+    $('#postman').show();
+}
 </script>
 {% endblock %}

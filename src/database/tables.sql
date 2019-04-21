@@ -45,7 +45,7 @@ CREATE TABLE assignment(
     assignmentId int AUTO_INCREMENT primary key, 
     title varchar(30) not null, 
     descr text, 
-    db enum('prof','stu','none'),
+    db enum('yes','none'),
     ui enum('web', 'rest', 'cui'),
     submission date,
     teachesId int,

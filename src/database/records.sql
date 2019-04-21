@@ -44,6 +44,6 @@ insert into assignment(title,descr,db,ui,submission,teachesId) values ("Panda-Fl
 insert into web values(1, "Render pandas DataFrame wholesale", 3);
 insert into web values(2, "Render pandas DataFrame row by row+", 3);
 insert into web values(3, "Display an embedded Bokeh chart", 3);
-insert into submission(gitlink, docklink, docLink, port, takesId, assignmentId) values("http://github.com/kaveri-s","https://hub.docker.com/rubyphoenix","www.google.com",0, 2, 1);
-insert into submission(gitlink, docklink, docLink, port, takesId, assignmentId) values("http://github.com/kaveri-s", "https://hub.docker.com/rubyphoenix", "www.google.com",5000, 3, 2);
-insert into submission(gitlink, docklink, docLink, port, takesId, assignmentId) values("http://github.com/kaveri-s","https://hub.docker.com/rubyphoenix", "www.google.com", 5957, 4, 3);
+insert into submission(gitlink, docklink, docLink, port, takesId, assignmentId) values("http://github.com/kaveri-s","https://hub.docker.com/rubyphoenix/cui-sample","www.google.com",0, 2, 1);
+insert into submission(gitlink, docklink, docLink, port, takesId, assignmentId) values("http://github.com/kaveri-s", "https://hub.docker.com/rubyphoenix/rest-sample", "www.google.com",5000, 7, 2);
+insert into submission(gitlink, docklink, docLink, port, takesId, assignmentId) values("http://github.com/kaveri-s","https://hub.docker.com/rubyphoenix/web-sample", "www.google.com", 5957, 4, 3);

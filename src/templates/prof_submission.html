@@ -45,6 +45,11 @@
                 </div>
             </div>
         </div>
+
+        <div id="app-test" class="card-footer">
+                <a href="" target="blank" id="app-test-link"><button id="app-test-download"
+                            class="mt-0 btn btn-blue-grey font-weight-bold"></button></a>
+            </div>
     </div>
 
     <hr class="mt-5 border-light">
@@ -67,6 +72,19 @@
 
 {% block script %}
 <script>
+    $('#app-test').hide()
+    if ('{{ui}}' == 'web') {
+        $('#app-test-link').attr("href", "/result/{{assignmentId}}/selenium.side");
+        $('#app-test-download').text('selenium.side');
+        $('app-test').show();
+    }
+
+    else if ('{{ui}}' == 'rest') {
+        $('#app-test-link').attr("href", "/result/{{assignmentId}}/postman.zip");
+        $('#app-test-download').text('postman.json');
+        $('#app-test').show();
+    }
+
     $('#results').hide();
     $('#stop').hide();
     $('#test').click(function () {

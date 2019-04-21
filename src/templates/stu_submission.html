@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="/cases/{{assignmentId}}" target="blank"><button id="download"
+            <a href="/{{assignmentId}}/cases" target="blank"><button id="download"
                     class="mt-0 btn btn-blue-grey font-weight-bold">Download Test Cases</button></a>
         </div>
     </div>
@@ -62,12 +62,9 @@
     <!-- Create Submission -->
     <button id="submit" class="btn btn-dark-green">Submit Assignment</button>
 
-    <!-- Generate Dockerfile -->
-    <button id="dockerfile" class="btn btn-blue-grey float-right">Generate Dockerfile</button>
-
 
     <!-- Submission Details -->
-
+    <div id="if-submitted">
     <div class="card mt-5" id="submission-details">
         <div class="card-header">
             <h2 class="dark-grey-text">Submission Details</h2>
@@ -96,8 +93,14 @@
                     </a>
                     <p class="card-text ">Report</p>
                 </div>
+                
             </div>
+            
         </div>
+        <div id="app-test" class="card-footer">
+                <a href="" target="blank" id="app-test-link"><button id="app-test-download"
+                            class="mt-0 btn btn-blue-grey font-weight-bold"></button></a>
+            </div>
     </div>
 
     <hr class="mt-5 border-light">
@@ -111,6 +114,7 @@
         </div>
         <button id="stop" class="m-3 btn btn-blue-grey font-weight-bold">Stop</button>
     </div>
+    </div>
 </div>
 
 
@@ -122,7 +126,7 @@
     $('#results').hide();
     $('#stop').hide();
     $('#submit').click(function () {
-        window.location.href = '/student/create/submission'
+        window.location.href = '/student/create/{{assignmentId}}/submission'
     });
     $('#dockerfile').click(function () {
         window.location.href = '/student/create/dockerfile'
@@ -130,18 +134,20 @@
     $.ajax({
         url: '/get/{{assignmentId}}/submission',
         success: function (response) {
+            var submissionId;
             data = JSON.parse(response);
             console.log(data);
             if (data == 'Not Submitted') {
-                $('submission-details').hide();
+                $('#if-submitted').hide();
             } else {
                 $("#submit").attr("disabled", true);
                 $('#gitLink').attr("href", data["gitLink"]);
                 $('#dockLink').attr("href", data["dockLink"]);
                 $('#docLink').attr("href", data["docLink"]);
+                submissionId = data["submissionId"]
             }
 
-            if (data['ui'] == 'cui') {
+            if ('{{ui}}' == 'cui') {
                 console.log('Here');
                 $.ajax({
                     url: '/get/cui/{{assignmentId}}',
@@ -152,10 +158,11 @@
                             '<h5 class="font-weight-bold">CUI</h5><p>Executable Name: ' +
                             data[0][
                                 'execName'
-                            ] + '</p>')
+                            ] + '</p>');
+                        $('#app-test').hide();
                     }
                 });
-            } else if (data['ui'] == 'rest') {
+            } else if ('{{ui}}' == 'rest') {
                 console.log('Here');
                 $.ajax({
                     url: '/get/rest/{{assignmentId}}',
@@ -169,6 +176,27 @@
                                 data[i]['api'] + '</p><p>Method: ' + data[i]['method'] +
                                 '</p><p>Status Code: ' + data[i]['statusCode'] + '</p>');
                         }
+                        $('#app-test-link').attr("href", "/result/{{assignmentId}}/postman.zip");
+                        $('#app-test-download').text('postman.json');
+                    }
+                });
+            }
+
+            else if ('{{ui}}' == 'web') {
+                console.log('Here');
+                $.ajax({
+                    url: '/get/web/{{assignmentId}}',
+                    success: function (response) {
+                        data = JSON.parse(response);
+                        console.log(data);
+                        $('#ui-results').append('<h5 class="font-weight-bold">REST</h5>');
+                        for (i = 0, len = data.length; i < len; i++) {
+                            $('#ui-results').append('<p><b>Test ' + (i + 1) +
+                                ':</b></p><p>Scenario: ' +
+                                data[i]['scenario'] + '</p>');
+                        }
+                        $('#app-test-link').attr("href", "/result/{{assignmentId}}/selenium.side");
+                        $('#app-test-download').text('selenium.side');
                     }
                 });
             }
@@ -178,20 +206,19 @@
                 $("#spinner").show();
                 $('#stop').hide();
                 $.ajax({
-                    url: '/run/{{submissionId}}',
+                    url: '/run/'+submissionId,
                     success: function (response) {
                         data = JSON.parse(response);
                         console.log(data);
                         $('#spinner').hide();
-                        for (i = 0, len = data.length; i < len; i++) {
-                            console.log('Hi');
-                            console.log(data[i]);
-                            if (data['ui'] == 'web') {
+                        if ('{{ui}}' == 'web') {
                                 $("#result-body").append(
-                                    '<p class="dark-grey-text" id="web-url">Please copy paste this url on the browser having selenium:</p><p class="dark-grey-text">' +
-                                    data['url'] + '</p>');
+                                    '<p class="dark-grey-text" id="web-url">Please copy paste this url on the browser having selenium: ' +
+                                    data[0]['url'] + '</p>');
                                 $('#stop').show();
-                            } else {
+                        }
+                        else {
+                            for (i = 0, len = data.length; i < len; i++) {
                                 $("#result-body").append(
                                     '<p class="dark-grey-text">Test ' + (i + 1) +
                                     ': ' + data[i]['r'] + '</p>');
