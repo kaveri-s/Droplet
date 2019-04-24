@@ -42,6 +42,16 @@ def validate():
     # If we still reach here, it means that the user is not a registered one
     return "Missing"
 
+@app.route('/getmanual')
+def getmanual():
+    if 's_id' in session:
+        return send_file('../manuals/Student.pdf', as_attachment=True, cache_timeout=1) 
+    elif 'p_id' in session:
+        return send_file('../manuals/Professor.pdf', as_attachment=True, cache_timeout=1)
+    else:
+        return redirect(url_for('index'))
+
+
 #To logout
 @app.route('/logout')
 def logout():
