@@ -277,7 +277,7 @@ def runDocker(submission_id):
                     "method":rest[n]['method'],
                     "status":rest[n]['statusCode'],
                     "i":"/mnt/tests/ip"+str(n+1),
-                    "o":path+"/op"+str(n+1),
+                    "o":path+"op"+str(n+1),
                     "r":""
                 })
             # print(tests)
