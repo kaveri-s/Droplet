@@ -1,8 +1,11 @@
 import pymysql
+import json
 
 class Database:
     def __init__(self):
-        self._conn = pymysql.connect("localhost", "droplet", "droplet", "droplet")
+        app_config = json.loads(open('../dropletconfig.json').read())
+        host = app_config["DB_HOST"]
+        self._conn = pymysql.connect(host, "droplet", "droplet", "droplet")
         self._cursor = self._conn.cursor()
 
     def __enter__(self):
