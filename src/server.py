@@ -45,7 +45,7 @@ def validate():
 @app.route('/getmanual')
 def getmanual():
     if 's_id' in session:
-        return send_file('../manuals/Student.pdf', as_attachment=True, cache_timeout=1) 
+        return send_file('../manuals/Student.zip', as_attachment=True, cache_timeout=1) 
     elif 'p_id' in session:
         return send_file('../manuals/Professor.pdf', as_attachment=True, cache_timeout=1)
     else:
