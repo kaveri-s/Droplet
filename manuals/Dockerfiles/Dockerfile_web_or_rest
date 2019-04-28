@@ -1,0 +1,32 @@
+# Dockerfile - this is a comment. Delete me if you want.
+FROM <image>[:<tag>] [AS <name>]
+
+# Add metadata to your image
+LABEL <key>=<value> <key>=<value> <key>=<value> ...
+
+# Sets work diretcory that will be referenced by any RUN, CMD, ENTRYPOINT, COPY and ADD commands following it
+WORKDIR /path/to/workdir
+
+# To copy source code and other files
+ADD [--chown=<user>:<group>] ["<src>",... "<dest>"]
+
+# To copy source code and other files
+COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
+
+# To set environment variables required by the code
+ENV <key>=<value>
+
+# Commands to be run before the application is run - Can be used to install and configure depedencies
+RUN ["executable", "param1", "param2"]
+
+# To specify a mount path on the container for mounting external volume
+VOLUME ["/data"]
+
+# To speciffy port where the app will run. Note: it doesn't actually publish a port
+EXPOSE <port> [<port>/<protocol>...]
+
+# Similar to CMD but used when the container has an executable. In this case, parameters that change frequently are supplied by CMD
+ENTRYPOINT ["executable", "param1", "param2"
+
+# Run a command inside a container.
+CMD ["executable","param1","param2"]

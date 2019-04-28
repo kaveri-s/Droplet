@@ -1,0 +1,8 @@
+FROM <image>[:<tag>] [AS <name>]
+
+COPY . /
+
+RUN \
+	chmod +x run.sh
+
+ENTRYPOINT ["/run.sh"]
