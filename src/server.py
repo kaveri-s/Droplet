@@ -184,7 +184,7 @@ def createAssignmentConfirm():
     if 'p_id' in session:
         result = utilities.createAssignmentConfirm(request.form, request.files, session['p_id'])
         if(result=="Success"):
-            return redirect(url_for('profile'))
+            return redirect(url_for('index'))
         else:
             return result
     else:
