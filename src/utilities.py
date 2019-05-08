@@ -225,7 +225,9 @@ def uploadFiles(tests, assignmentId):
     return "Success"
 
 def zipfiles(zipname, path):
-    return make_archive(zipname, 'zip', path)
+    # print('hi', path)
+    # print('hi again', os.path.dirname(path))
+    return make_archive(path, 'zip', os.path.dirname(path) , path)
 
 #Docker related utilities
 def runDocker(submission_id):
